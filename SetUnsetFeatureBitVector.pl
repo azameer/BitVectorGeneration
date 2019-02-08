@@ -68,6 +68,7 @@ sub FsEnableBitVector
         {
                 vec($ReverseBitVector,$BitPosition,1) = 1;
                 $FinalHexString=reverse(unpack("h".length($FsHexInputString),$ReverseBitVector));
+                $FinalHexString = '0'.$FinalHexString if (length($FinalHexString)%2);
                 print "\n\nBIT ENABLED HEX STRING:              $FinalHexString AT BIT POSITION: $BitPosition\n\n";
         }
         else
@@ -89,6 +90,7 @@ sub FsDisableBitVector
         {
                 vec($ReverseBitVector,$BitPosition,1) = 0;
                 $FinalHexString=reverse(unpack("h".length($FsHexInputString),$ReverseBitVector));
+                $FinalHexString = '0'.$FinalHexString if (length($FinalHexString)%2);
                 print "\n\nBIT DISABLED HEX STRING:              $FinalHexString AT BIT POSITION: $BitPosition\n\n";
         }
         else
@@ -112,9 +114,13 @@ print "\n\nENTER BIT POSITION for Enable/Disable\n";
 my $BitPosn=<STDIN>;
 chomp($BitPosn);
 
-my $FsEnabledHexString=FsEnableBitVector($InputHexStr,$BitPosn) if ($option =~ /^Enable$/i);
+my $FinalHexString;
 
-my $FsDisabledHexString=FsDisableBitVector($InputHexStr,$BitPosn) if ($option =~ /^Disable$/i);
+$FinalHexString = FsEnableBitVector($InputHexStr,$BitPosn) if ($option =~ /^Enable$/i);
+$FinalHexString = FsDisableBitVector($InputHexStr,$BitPosn) if ($option =~ /^Disable$/i);
+
+
+
 
 
 ## Modified on 1/13/2019 9:22 PM
